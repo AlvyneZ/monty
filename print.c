@@ -52,6 +52,10 @@ void print_char(stack_t **stack, unsigned int line_number)
 	{
 		err_ln(stack, line_number, "can't pchar, stack empty");
 	}
+	if (((*stack)->n < 0) || ((*stack)->n > 127))
+	{
+		err_ln(stack, line_number, "can't pchar, value out of range");
+	}
 	printf("%c\n", (*stack)->n);
 }
 
@@ -72,5 +76,6 @@ void print_str(stack_t **stack, unsigned int line_number)
 	{
 		printf("%c", h->n);
 	}
-	printf("\n");
+	if ((h != (*stack)) || ((*stack) == NULL))
+		printf("\n");
 }
