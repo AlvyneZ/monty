@@ -23,12 +23,11 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-typedef void (*op_func_t)(stack_t **, void *, unsigned int);
+typedef void (*op_func_t)(stack_t **, unsigned int);
 
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
- * @var_cnt: the number of arguments the opcode requires
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
@@ -37,8 +36,7 @@ typedef void (*op_func_t)(stack_t **, void *, unsigned int);
 typedef struct instruction_s
 {
 	char *opcode;
-	size_t var_cnt;
-	op_func_t f;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 
@@ -50,24 +48,24 @@ size_t free_stack_space(stack_t **stack, size_t max);
 void err_prt(stack_t **stack, char *msg);
 void err_ln(stack_t **stack, unsigned int line_number, char *msg);
 
-void print_all(stack_t **stack, void *var, unsigned int line_number);
-void print_int(stack_t **stack, void *var, unsigned int line_number);
-void print_char(stack_t **stack, void *var, unsigned int line_number);
-void print_str(stack_t **stack, void *var, unsigned int line_number);
+void print_all(stack_t **stack, unsigned int line_number);
+void print_int(stack_t **stack, unsigned int line_number);
+void print_char(stack_t **stack, unsigned int line_number);
+void print_str(stack_t **stack, unsigned int line_number);
 
 void push_mty(stack_t **stack, void *var, unsigned int line_number);
-void pop_mty(stack_t **stack, void *var, unsigned int line_number);
+void pop_mty(stack_t **stack, unsigned int line_number);
 
-void swap_mty(stack_t **stack, void *var, unsigned int line_number);
-void nop_mty(stack_t **stack, void *var, unsigned int line_number);
+void swap_mty(stack_t **stack, unsigned int line_number);
+void nop_mty(stack_t **stack, unsigned int line_number);
 
-void add_mty(stack_t **stack, void *var, unsigned int line_number);
-void sub_mty(stack_t **stack, void *var, unsigned int line_number);
-void div_mty(stack_t **stack, void *var, unsigned int line_number);
-void mul_mty(stack_t **stack, void *var, unsigned int line_number);
-void mod_mty(stack_t **stack, void *var, unsigned int line_number);
+void add_mty(stack_t **stack, unsigned int line_number);
+void sub_mty(stack_t **stack, unsigned int line_number);
+void div_mty(stack_t **stack, unsigned int line_number);
+void mul_mty(stack_t **stack, unsigned int line_number);
+void mod_mty(stack_t **stack, unsigned int line_number);
 
-void rotl_mty(stack_t **stack, void *var, unsigned int line_number);
-void rotr_mty(stack_t **stack, void *var, unsigned int line_number);
+void rotl_mty(stack_t **stack, unsigned int line_number);
+void rotr_mty(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_INTPRTR_HEADER */

@@ -30,17 +30,15 @@ void push_mty(stack_t **stack, void *var, unsigned int line_number)
 /**
  * pop_mty - Removes an element to the top of the stack
  * @stack: Top of Stack to be popped from
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty pop opcode
  */
-void pop_mty(stack_t **stack, void *var, unsigned int line_number)
+void pop_mty(stack_t **stack, unsigned int line_number)
 {
 	stack_t *cur = NULL;
 
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL))
 	{
 		err_ln(stack, line_number, "can't pop an empty stack");

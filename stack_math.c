@@ -4,15 +4,13 @@
  * add_mty - Adds the element at the top of the stack to the
  *  second top element
  * @stack: Top of Stack to be operated on
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty add opcode
  */
-void add_mty(stack_t **stack, void *var, unsigned int line_number)
+void add_mty(stack_t **stack, unsigned int line_number)
 {
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't add, stack too short");
@@ -25,15 +23,13 @@ void add_mty(stack_t **stack, void *var, unsigned int line_number)
  * sub_mty - subtracts the element at the top of the stack from the
  *  second top element
  * @stack: Top of Stack to be operated on
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty sub opcode
  */
-void sub_mty(stack_t **stack, void *var, unsigned int line_number)
+void sub_mty(stack_t **stack, unsigned int line_number)
 {
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't sub, stack too short");
@@ -46,15 +42,13 @@ void sub_mty(stack_t **stack, void *var, unsigned int line_number)
  * div_mty - Divides the stack's second top element by the element
  *  at the top of the stack
  * @stack: Top of Stack to be operated on
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty div opcode
  */
-void div_mty(stack_t **stack, void *var, unsigned int line_number)
+void div_mty(stack_t **stack, unsigned int line_number)
 {
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't div, stack too short");
@@ -67,15 +61,13 @@ void div_mty(stack_t **stack, void *var, unsigned int line_number)
  * mul_mty - Multiplies the element at the top of the stack to the
  *  second top element
  * @stack: Top of Stack to be operated on
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty mul opcode
  */
-void mul_mty(stack_t **stack, void *var, unsigned int line_number)
+void mul_mty(stack_t **stack, unsigned int line_number)
 {
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't mul, stack too short");
@@ -88,15 +80,13 @@ void mul_mty(stack_t **stack, void *var, unsigned int line_number)
  * mod_mty - Computes the remainder of the division of the stack's second
  *  top element by the element at the top of the stack
  * @stack: Top of Stack to be operated on
- * @var: Pointer to arguments of opcode (Unused)
  * @line_number: Monty bytecode line number being executed
  * Return: None
  *
  * Description: Handles the monty mod opcode
  */
-void mod_mty(stack_t **stack, void *var, unsigned int line_number)
+void mod_mty(stack_t **stack, unsigned int line_number)
 {
-	(void)var;
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't mod, stack too short");

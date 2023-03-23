@@ -14,22 +14,21 @@ FILE *byteCode = NULL;
 instruction_t *get_opFunc(char *opCodeStr)
 {
 	static instruction_t inst_map[] = {
-		{"pint", 0, print_int},
-		{"pall", 0, print_all},
-		{"pchar", 0, print_char},
-		{"pstr", 0, print_str},
-		{"push", 1, push_mty},
-		{"pop", 0, pop_mty},
-		{"swap", 0, swap_mty},
-		{"nop", 0, nop_mty},
-		{"add", 0, add_mty},
-		{"sub", 0, sub_mty},
-		{"div", 0, div_mty},
-		{"mul", 0, mul_mty},
-		{"mod", 0, mod_mty},
-		{"rotl", 0, rotl_mty},
-		{"rotr", 0, rotr_mty},
-		{NULL, 0, nop_mty}
+		{"pint", print_int},
+		{"pall", print_all},
+		{"pchar", print_char},
+		{"pstr", print_str},
+		{"pop", pop_mty},
+		{"swap", swap_mty},
+		{"nop", nop_mty},
+		{"add", add_mty},
+		{"sub", sub_mty},
+		{"div", div_mty},
+		{"mul", mul_mty},
+		{"mod", mod_mty},
+		{"rotl", rotl_mty},
+		{"rotr", rotr_mty},
+		{NULL, nop_mty}
 	};
 	int idx;
 
@@ -39,6 +38,34 @@ instruction_t *get_opFunc(char *opCodeStr)
 			return (&inst_map[idx]);
 	}
 	return (NULL);
+}
+
+/**
+ * handle_specOpCode - Handles special opCodes eg that take arguments
+ * @buf: Line of byteCode
+ * @cur: op Code part of byteCode line
+ * @stack: top of the stack
+ * @var: pointer to store op code arguments
+ * @line_number: Current line being read
+ *
+ * Return: 1 if opcode instruction executed, 0 otherwise
+ */
+int handle_specOpCode(char *buf, char *cur,
+		stack_t **stack, int *var, unsigned int *line_number)
+{
+	if (strcmp(cur, "push") == 0)
+	{
+		cur = strtok(NULL, " \t\n");
+		if ((cur == NULL) || (strspn(cur, "0123456789") != strlen(cur)))
+		{
+			free(buf);
+			err_ln(stack, (*line_number), "usage: push integer");
+		}
+		var[0] = atoi(cur);
+		push_mty(stack, var, (*line_number));
+		return (1);
+	}
+	return (0);
 }
 
 /**
@@ -55,14 +82,17 @@ ssize_t get_opCode(FILE *byteCode, instruction_t **opCode,
 		stack_t **stack, int *var, unsigned int *line_number)
 {
 	char *buf = NULL, *cur = NULL, temp[20];
-	size_t buf_size = 0, i;
+	size_t buf_size = 0;
 	ssize_t lin_sz = 0;
 
 	lin_sz = getline(&buf, &(buf_size), byteCode);
 	(*line_number)++;
 	/* End of file */
 	if (lin_sz <= 0)
+	{
+		free(buf);
 		return (0);
+	}
 	cur = strtok(buf, " \t\n");
 	/* Empty or Comment line */
 	if ((cur == NULL) || (cur[0] == '\n') || (cur[0] == '#'))
@@ -73,20 +103,13 @@ ssize_t get_opCode(FILE *byteCode, instruction_t **opCode,
 	(*opCode) = get_opFunc(cur);
 	if ((*opCode) == NULL)
 	{
-		strncpy(temp, cur, 20);
-		free(buf);
-		fprintf(stderr, "L%u: unknown instruction ", (*line_number));
-		err_prt(stack, temp);
-	}
-	for (i = 0; i < (*opCode)->var_cnt; i++)
-	{
-		cur = strtok(NULL, " \t\n");
-		if ((cur == NULL) || (strspn(cur, "0123456789") != strlen(cur)))
+		if (handle_specOpCode(buf, cur, stack, var, line_number) == 0)
 		{
+			strncpy(temp, cur, 20);
 			free(buf);
-			err_ln(stack, (*line_number), "usage: push integer");
+			fprintf(stderr, "L%u: unknown instruction ", (*line_number));
+			err_prt(stack, temp);
 		}
-		var[i] = atoi(cur);
 	}
 
 	free(buf);
@@ -124,7 +147,7 @@ int main(int argc, char **argv)
 	{
 		if (curOpCode == NULL)
 			continue; /* Empty line */
-		curOpCode->f(stack, var, line_number);
+		curOpCode->f(stack, line_number);
 		curOpCode = NULL;
 	}
 
