@@ -58,7 +58,7 @@ int handle_specOpCode(char *buf, char *cur,
 	if (strcmp(cur, "push") == 0)
 	{
 		cur = strtok(NULL, " \t\n");
-		len = strlen(cur);
+		len = (cur == NULL) ? 0 : strlen(cur);
 		if ((cur == NULL) || (strspn(cur, "+-0123456789") != len) ||
 				((len > 1) && (strpbrk(&cur[1], "-+"))))
 		{

@@ -1,4 +1,4 @@
-push -22
+push  
 pint
 pall
 
