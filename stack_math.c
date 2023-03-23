@@ -53,6 +53,10 @@ void div_mty(stack_t **stack, unsigned int line_number)
 	{
 		err_ln(stack, line_number, "can't div, stack too short");
 	}
+	if ((*stack)->n == 0)
+	{
+		err_ln(stack, line_number, "division by zero");
+	}
 	(*stack)->prev->n /= (*stack)->n;
 	free_stack_space(stack, 1);
 }
@@ -90,6 +94,10 @@ void mod_mty(stack_t **stack, unsigned int line_number)
 	if ((stack == NULL) || ((*stack) == NULL) || ((*stack)->prev == NULL))
 	{
 		err_ln(stack, line_number, "can't mod, stack too short");
+	}
+	if ((*stack)->n == 0)
+	{
+		err_ln(stack, line_number, "division by zero");
 	}
 	(*stack)->prev->n %= (*stack)->n;
 	free_stack_space(stack, 1);
