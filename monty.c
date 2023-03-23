@@ -60,7 +60,6 @@ int handle_specOpCode(char *buf, char *cur,
 		cur = strtok(NULL, " \t\n");
 		len = strlen(cur);
 		if ((cur == NULL) || (strspn(cur, "+-0123456789") != len) ||
-				((strspn(cur, "+-")) && (len == 1)) ||
 				((len > 1) && (strpbrk(&cur[1], "-+"))))
 		{
 			free(buf);
