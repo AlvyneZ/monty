@@ -53,11 +53,15 @@ instruction_t *get_opFunc(char *opCodeStr)
 int handle_specOpCode(char *buf, char *cur,
 		stack_t **stack, int *var, unsigned int *line_number)
 {
+	size_t len;
+
 	if (strcmp(cur, "push") == 0)
 	{
 		cur = strtok(NULL, " \t\n");
-		if ((cur == NULL) || (strspn(cur, "+-0123456789") != strlen(cur)) ||
-				(strpbrk(&cur[(strspn(cur, "+-"))?1:0], "-+")))
+		len = strlen(cur);
+		if ((cur == NULL) || (strspn(cur, "+-0123456789") != len) ||
+				((strspn(cur, "+-")) && (len == 1)) ||
+				((len > 1) && (strpbrk(&cur[1], "-+"))))
 		{
 			free(buf);
 			err_ln(stack, (*line_number), "usage: push integer");
