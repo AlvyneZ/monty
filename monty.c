@@ -56,7 +56,8 @@ int handle_specOpCode(char *buf, char *cur,
 	if (strcmp(cur, "push") == 0)
 	{
 		cur = strtok(NULL, " \t\n");
-		if ((cur == NULL) || (strspn(cur, "0123456789") != strlen(cur)))
+		if ((cur == NULL) || (strspn(cur, "+-0123456789") != strlen(cur)) ||
+				(strpbrk(&cur[(strspn(cur, "+-"))?1:0], "-+")))
 		{
 			free(buf);
 			err_ln(stack, (*line_number), "usage: push integer");

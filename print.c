@@ -76,6 +76,5 @@ void print_str(stack_t **stack, unsigned int line_number)
 	{
 		printf("%c", h->n);
 	}
-	if ((h != (*stack)) || ((*stack) == NULL))
-		printf("\n");
+	printf("\n");
 }
